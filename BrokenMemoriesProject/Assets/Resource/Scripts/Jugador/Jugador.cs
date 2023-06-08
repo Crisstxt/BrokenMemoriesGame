@@ -168,6 +168,11 @@ public class Jugador : MonoBehaviour
         return mirandoDerecha;
     }
 
+    public bool GetEnSuelo()
+    {
+        return enSuelo;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

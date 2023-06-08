@@ -781,7 +781,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &299450012
 Transform:
   m_ObjectHideFlags: 0
@@ -931,6 +931,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saludMaxima: 75
   saludActual: 0
+  sonidoHit: {fileID: 0}
+  sonidoMuerte: {fileID: 0}
 --- !u!114 &299450018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -944,7 +946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velMov: 1
-  estaActivado: 0
+  estaActivado: 1
   rango: 5
   rangoAtaque: 1.5
   danyoAtaquePrimario: 20
@@ -955,8 +957,10 @@ MonoBehaviour:
   mascaraJugador:
     serializedVersion: 2
     m_Bits: 64
-  randomNum: 0
-  estaAtacando: 0
+  randomNum: 1
+  escudo: 0
+  ataquePrimario: {fileID: 0}
+  ataqueSecundario: {fileID: 0}
 --- !u!1 &328986013
 GameObject:
   m_ObjectHideFlags: 0
@@ -3376,13 +3380,14 @@ GameObject:
   - component: {fileID: 1290754056}
   - component: {fileID: 1290754058}
   - component: {fileID: 1290754059}
+  - component: {fileID: 1290754060}
   m_Layer: 8
   m_Name: ShieldDroid
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1290754052
 Transform:
   m_ObjectHideFlags: 0
@@ -3532,6 +3537,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saludMaxima: 100
   saludActual: 0
+  sonidoHit: {fileID: 0}
+  sonidoMuerte: {fileID: 0}
 --- !u!114 &1290754059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3546,18 +3553,116 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velMov: 1
   estaActivado: 0
-  rango: 0
-  rangoAtaque: 0
-  danyoAtaquePrimario: 0
+  rango: 5
+  rangoAtaque: 2
+  danyoAtaquePrimario: 20
   danyoAtaqueSecundario: 0
-  dosAtaques: 0
-  GizmosAtaque: {fileID: 0}
-  rangoGizmos: 0
+  dosAtaques: 1
+  GizmosAtaque: {fileID: 1290738794}
+  rangoGizmos: 0.5
   mascaraJugador:
     serializedVersion: 2
-    m_Bits: 0
-  randomNum: 0
-  estaAtacando: 0
+    m_Bits: 64
+  randomNum: 1
+  escudo: 0
+  ataquePrimario: {fileID: 0}
+  ataqueSecundario: {fileID: 0}
+--- !u!82 &1290754060
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290754051}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 1ada2638518ac594f9bb156a8c9e6ad6, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1348627889
 GameObject:
   m_ObjectHideFlags: 0
@@ -4903,7 +5008,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1785482561}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.4, y: -5.46, z: 0}
+  m_LocalPosition: {x: 4.17, y: -5.52, z: 0}
   m_LocalScale: {x: 0.9760931, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4936,7 +5041,7 @@ MonoBehaviour:
   vidaMaxima: 100
   cbv: {fileID: 997709848}
   estaMuerto: 0
-  contadorTiempoVida: 0
+  contadorTiempoVida: 5
   sonidoSalto: {fileID: 8300000, guid: b35d414a14d4cd24f877c2c9d57cad09, type: 3}
   sonidoDash: {fileID: 8300000, guid: 5ab874c7c344fe945a28d13d9032b78b, type: 3}
   sonidoHit: {fileID: 8300000, guid: 393c0af0f4704084293026d20823460a, type: 3}
@@ -4976,6 +5081,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controladorTiros: {fileID: 1996337673}
   bala: {fileID: 5391677685127644815, guid: 8a73e1f87f9e7b146b1ee07f0c268b37, type: 3}
+  Ataquerate: 5
   sonidoDisparo: {fileID: 8300000, guid: dd51099189886224da54c57d5dbe83b9, type: 3}
 --- !u!82 &1785482569
 AudioSource:

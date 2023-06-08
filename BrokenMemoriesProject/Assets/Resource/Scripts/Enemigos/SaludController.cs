@@ -9,9 +9,15 @@ public class SaludController : MonoBehaviour
     public float saludActual;
     private bool isDeath;
     private Animator animator;
-    
+
+    [Header("Sonidos")]
+    [SerializeField] private AudioClip sonidoHit;
+    [SerializeField] private AudioClip sonidoMuerte;
+    private AudioSource audioSource;
+
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         saludActual = saludMaxima;
         isDeath = false;
         animator = GetComponent<Animator>();
@@ -32,6 +38,7 @@ public class SaludController : MonoBehaviour
     public void ObtenerDanyo(float danyo)
     {
         animator.SetTrigger("Hit");
+        audioSource.PlayOneShot(sonidoHit);
 
         saludActual -= danyo;
 
@@ -44,6 +51,7 @@ public class SaludController : MonoBehaviour
 
     public void Muerte()
     {
+        audioSource.PlayOneShot(sonidoMuerte);
         animator.SetBool("isDead", isDeath);
         GetComponent<BoxCollider2D>().enabled = false;
         GetComponent<Rigidbody2D>().isKinematic = true;

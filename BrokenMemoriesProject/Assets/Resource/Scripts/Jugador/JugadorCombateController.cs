@@ -55,20 +55,20 @@ public class JugadorCombateController : MonoBehaviour
             {
                 case (KeyCode.Mouse0):
                     dmg = DanyoAtaquePrimario;
-                        if (tieneCombo)
-                        {                       
-                            Combo();
-                        } else
-                        {
-                            animator.SetTrigger("0");
-                            audioSource.PlayOneShot(sonidoAtaque);
-                            proximoAtaque = Time.time + 1f / Ataquerate;
-                        }
+                    if (tieneCombo)
+                    {
+                        Combo();
+                    } else
+                    {
+                        animator.SetTrigger("0");
+                        audioSource.PlayOneShot(sonidoAtaque);
+                        proximoAtaque = Time.time + 1f / Ataquerate;
+                    }
                     break;
 
                 case (KeyCode.Mouse1):
                     audioSource.PlayOneShot(sonidoCarga);
-                    dmg = DanyoAtaqueSecundario;             
+                    dmg = DanyoAtaqueSecundario;
                     animator.SetTrigger("Charge");
                     proximoAtaque = Time.time + 1f / Ataquerate;
                     TerminarCombo();
@@ -87,7 +87,7 @@ public class JugadorCombateController : MonoBehaviour
 
     public KeyCode ObtenerTecla()
     {
-        foreach(KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
+        foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
         {
             if (Input.GetKeyDown(key))
             {
@@ -100,7 +100,7 @@ public class JugadorCombateController : MonoBehaviour
 
     public void Combo()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !atacando)
+        if (!atacando)
         {
             atacando = true;
             audioSource.PlayOneShot(sonidoAtaque);
@@ -112,7 +112,7 @@ public class JugadorCombateController : MonoBehaviour
     public void ComenzarCombo()
     {
         atacando = false;
-        if(indexCombo < 3)
+        if (indexCombo < 3)
         {
             indexCombo++;
         }
@@ -143,7 +143,7 @@ public class JugadorCombateController : MonoBehaviour
 
     public void SetDmgSecundario(float newdmg)
     {
-        DanyoAtaqueSecundario = newdmg;     
+        DanyoAtaqueSecundario = newdmg;
     }
 
     public float GetActualDMG()
@@ -156,14 +156,19 @@ public class JugadorCombateController : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
-                enemy.GetComponent<SaludController>().ObtenerDanyo(dmg);    
+            if (!enemy.GetComponent<EnemigosController>().escudo)
+            {
+                enemy.GetComponent<SaludController>().ObtenerDanyo(dmg);
+            }
+            
         }
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(AttackController.position, RangoAtaque);
-        print("fa");
     }
+
+
 
 }

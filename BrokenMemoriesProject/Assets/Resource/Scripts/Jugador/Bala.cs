@@ -38,7 +38,10 @@ public class Bala : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            collision.gameObject.GetComponent<SaludController>().ObtenerDanyo(dmg);
+            if (!collision.gameObject.GetComponent<EnemigosController>().escudo)
+            {
+                collision.gameObject.GetComponent<SaludController>().ObtenerDanyo(dmg);
+            }
             velocidad = 0;
             animator.SetTrigger("Destroy");
             Destroy(gameObject, 0.5f);

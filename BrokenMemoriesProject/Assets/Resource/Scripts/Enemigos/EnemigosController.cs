@@ -23,9 +23,16 @@ public class EnemigosController : MonoBehaviour
     [SerializeField] private bool dosAtaques;
     [SerializeField] private Transform GizmosAtaque;
     [SerializeField] private float rangoGizmos;
+    private bool puedeAtacar = true;
     public LayerMask mascaraJugador;
-    public float randomNum;
-    public float estaAtacando;
+    public int randomNum = 1;
+    public bool escudo;
+
+    [Header("Sonidos")]
+    [SerializeField] private AudioClip ataquePrimario;
+    [SerializeField] private AudioClip ataqueSecundario;
+    private AudioSource audioSource;
+
 
     private Animator animator;
     private Transform jugador;
@@ -34,6 +41,7 @@ public class EnemigosController : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         saludController = GetComponent<SaludController>();
         dificultad = PlayerPrefs.GetString("Dificultad");
@@ -43,24 +51,38 @@ public class EnemigosController : MonoBehaviour
 
     void Update()
     {
-        EncontrarJugador();
-
-        float distanciaPj = Vector3.Distance(transform.position, jugador.position);
-
-        if (distanciaPj <= rango)
+        if (estaActivado)
         {
-            mov = velMov;
-            animator.SetFloat("Horizontal", mov);
+            EncontrarJugador();
 
-            if (distanciaPj <= rangoAtaque)
+            float distanciaPj = Vector3.Distance(transform.position, jugador.position);
+
+            if (distanciaPj <= rango)
             {
-                AtacarJugador();
-            }
-            else
+                mov = velMov;
+                animator.SetFloat("Horizontal", mov);
+
+                if (distanciaPj <= rangoAtaque)
+                {
+                    mov = 0;
+                    AtacarJugador();
+                    
+                    
+                }
+                else
+                {
+                    SeguirJugador();
+                }
+            } else
             {
-                SeguirJugador();
+                mov = 0;
+                animator.SetFloat("Horizontal", mov);
             }
+        } else
+        {
+            animator.SetTrigger("Activated");
         }
+
 
         if (saludController.GetIsDeath())
         {
@@ -75,6 +97,7 @@ public class EnemigosController : MonoBehaviour
         animator.SetFloat("Horizontal", mov);
         transform.position += direccion * mov * Time.deltaTime;
     }
+
 
     public void EncontrarJugador()
     {
@@ -93,29 +116,32 @@ public class EnemigosController : MonoBehaviour
 
     public void AtacarJugador()
     {
-        mov = 0;
-        if (!dosAtaques)
-        {         
-            dmg = danyoAtaquePrimario;
-            animator.SetTrigger("Atacar");
+        if (!dosAtaques && puedeAtacar)
+        {
+            audioSource.PlayOneShot(ataquePrimario);
+        dmg = danyoAtaquePrimario;
+        animator.SetTrigger("Atacar");
         }
 
-        if(dosAtaques)
+        if (dosAtaques && puedeAtacar)
         {
+            puedeAtacar = false;
             switch (randomNum)
             {
                 case 1:
+                    audioSource.PlayOneShot(ataquePrimario);
                     dmg = danyoAtaquePrimario;
-                    animator.SetTrigger("Atacar");
-                    CambiarRandomNum();
+                    animator.SetTrigger("Atacar");              
                     break;
                 case 2:
+                    audioSource.PlayOneShot(ataqueSecundario);
                     dmg = danyoAtaqueSecundario;
                     animator.SetTrigger("AtacarSecundario");
-                    CambiarRandomNum();
                     break;
             }
-        } 
+        }
+
+       
     }
 
     public void Atacar()
@@ -135,15 +161,27 @@ public class EnemigosController : MonoBehaviour
                     }    
                 break;
         }
+    }
 
-
-
- 
+    private void PermitirAtaque()
+    {
+        puedeAtacar = true;
+        CambiarRandomNum();
     }
 
     public void CambiarRandomNum()
     {
         randomNum = Random.Range(1, 2 + 1);
+    }
+
+    public bool GetEstaActivado()
+    {
+        return estaActivado;
+    }
+
+    public void SetEstaActivado(bool valor)
+    {
+        estaActivado = valor;
     }
 
     public void ConfigurarDificultad(string dificultad)
